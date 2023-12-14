@@ -2,11 +2,13 @@
 
 <div class="container">
     <h1>Dashboard Dosen</h1>
-    <p>Selamat datang di Sistem Penilaian Mahasiswa. Pilih aksi yang ingin dilakukan:</p>
-    <ul>
-        <li><a href="/nilai/input">Input Nilai Mahasiswa</a></li>
-        <li><a href="/nilai/lihat">Lihat Nilai Mahasiswa</a></li>
-    </ul>
+    <p>Selamat datang, <?= $dosen['nama'] ?></p>
+
+    <!-- Di dalam file view dashboard -->
+    <?php foreach ($daftarMataKuliah as $mk): ?>
+        <a href="<?= site_url('nilai/input/' . $mk['kode']) ?>">Input Nilai <?= $mk['nama'] ?> (<?= $mk['kode'] ?>)</a><br>
+        <a href="<?= site_url('nilai/lihat/' . $mk['kode']) ?>">Lihat Nilai <?= $mk['nama'] ?> (<?= $mk['kode'] ?>)</a><br>
+    <?php endforeach; ?>
 </div>
 
 <?php include('footer.php'); ?>

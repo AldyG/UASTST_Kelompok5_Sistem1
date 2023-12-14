@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class MataKuliahModel extends Model
 {
     protected $table = 'mata_kuliah';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'kode';
 
     protected $useAutoIncrement = true;
     protected $returnType = 'array';

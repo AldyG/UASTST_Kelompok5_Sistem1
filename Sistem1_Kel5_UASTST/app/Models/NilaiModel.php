@@ -7,13 +7,13 @@ class NilaiModel extends Model
 
     //Send request buat ambil nim mmahasiswa yang ada di kelas.
     
-    protected $table = 'nilai';
+    protected $table = 'penilaian';
     protected $primaryKey = 'id';
 
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
 
-    protected $allowedFields = ['mahasiswa_id', 'mata_kuliah_id', 'nilai', 'kategori_nilai'];
+    protected $allowedFields = ['jenis', 'deskripsi', 'nilai', 'nim_mahasiswa', 'kode_matkul'];
 
     // Fungsi untuk menyimpan nilai mahasiswa
     public function simpanNilai($data)

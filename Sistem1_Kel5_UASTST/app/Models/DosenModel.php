@@ -5,20 +5,22 @@ use CodeIgniter\Model;
 class DosenModel extends Model
 {
     protected $table = 'dosen';
-    protected $primaryKey = 'NIDN'; 
+    protected $primaryKey = 'nidn'; 
     
     protected $useAutoIncrement = false; // Diubah jika NIDN tidak auto-increment
     protected $returnType = 'array';
 
-    protected $allowedFields = ['NIDN', 'nama', 'email', 'password'];
+    protected $allowedFields = ['nidn', 'nama', 'fakultas', 'password'];
 
     // Fungsi untuk autentikasi dosen
-    public function authenticate($NIDN, $password)
+    public function validateDosen($nidn, $password)
     {
-        $dosen = $this->where('NIDN', $NIDN)->first();
-        if ($dosen && password_verify($password, $dosen['password'])) {
+        $dosen = $this->where('nidn', $nidn)->first();
+        
+        if ($dosen && $dosen['password'] === $password) {
             return $dosen;
         }
-        return false;
+
+        return null;
     }
 }
