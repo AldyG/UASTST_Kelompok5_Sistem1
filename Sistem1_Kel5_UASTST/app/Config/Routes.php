@@ -14,4 +14,4 @@ $routes->get('nilai/input/(:segment)', 'NilaiController::input/$1');
 $routes->post('/nilai/simpan/(:segment)', 'NilaiController::simpan/$1'); // Menyimpan nilai
 $routes->get('nilai/lihat/(:any)', 'NilaiController::lihatNilai/$1');// Melihat nilai
 $routes->post('nilai/simpanNilai', 'NilaiController::simpanNilai');
-
+$routes->post('nilai/finalisasiNilai/(:any)', 'NilaiController::finalisasiNilai/$1');

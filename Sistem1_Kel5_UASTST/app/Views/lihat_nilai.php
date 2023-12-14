@@ -28,6 +28,9 @@
         <li><?= "NIM $nim: $nilaiAkhir" ?></li>
     <?php endforeach; ?>
 </ul>
+<form action="<?= site_url('nilai/finalisasiNilai/' . $kodeMatkul) ?>" method="post">
+    <button type="submit" class="btn btn-primary">Finalisasi Nilai</button>
+</form>
 </div>
 
 <?php include('footer.php'); ?>
