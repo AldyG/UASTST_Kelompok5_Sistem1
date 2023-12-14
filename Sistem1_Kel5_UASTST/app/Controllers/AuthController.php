@@ -13,25 +13,20 @@ class AuthController extends Controller
 
     public function login()
     {
-        $session = session();
+        $nidn = $this->request->getPost('nidn');
+        $password = $this->request->getPost('password');
+
         $model = new DosenModel();
 
-        $NIDN = $this->request->getVar('NIDN');
-        $password = $this->request->getVar('password');
-
-        $data = $model->authenticate($NIDN, $password);
-
-        if($data){
-            $ses_data = [
-                'NIDN'       => $data['NIDN'],
-                'nama'       => $data['nama'],
-                'isLoggedIn' => TRUE
-            ];
-            $session->set($ses_data);
+        $dosen = $model->validateDosen($nidn, $password);
+        if ($dosen) {
+            // Simpan data user ke session
+            session()->set('logged_in_dosen', $dosen);
             return redirect()->to('/dashboard');
         } else {
-            $session->setFlashdata('msg', 'NIDN atau Password salah');
-            return redirect()->to('/');
+            // Handle login gagal
+            // return redirect()->back()->with('error', 'NIDN atau Password salah');
+            return redirect()->to('/dashboarddwd');
         }
     }
 

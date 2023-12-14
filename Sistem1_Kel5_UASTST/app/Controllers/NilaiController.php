@@ -3,12 +3,41 @@
 use App\Models\NilaiModel;
 use CodeIgniter\Controller;
 
+use App\Models\DosenModel;
+use App\Models\MataKuliahModel;
+use App\Models\MatkulDosenModel;
+use App\Models\MatkulMahasiswaModel;
+
 class NilaiController extends Controller
 {
+    private function hitungNilaiAkhir($nilaiMahasiswa)
+    {
+        $totalNilaiTugas = 0;
+        $jumlahTugas = 0;
+        $nilaiUTS = 0;
+        $nilaiUAS = 0;
+
+        foreach ($nilaiMahasiswa as $nilai) {
+            if ($nilai['jenis'] === 'tugas') {
+                $totalNilaiTugas += $nilai['nilai'];
+                $jumlahTugas++;
+            } elseif ($nilai['jenis'] === 'uts') {
+                $nilaiUTS = $nilai['nilai'];
+            } elseif ($nilai['jenis'] === 'uas') {
+                $nilaiUAS = $nilai['nilai'];
+            }
+        }
+
+        $rataRataTugas = $jumlahTugas > 0 ? $totalNilaiTugas / $jumlahTugas : 0;
+        $nilaiAkhir = (0.2 * $rataRataTugas) + (0.4 * $nilaiUTS) + (0.4 * $nilaiUAS);
+
+        return $nilaiAkhir;
+    }
+
     public function dashboard()
     {
         // Pastikan dosen sudah login
-        if(!session()->get('isLoggedIn')){
+        if(!session()->get('logged_in_dosen')){
             return redirect()->to('/');
         }
 
@@ -16,62 +45,65 @@ class NilaiController extends Controller
         return view('dashboard');
     }
 
-    public function input()
+    public function input($kodeMatkul)
     {
-        // Tampilkan halaman input nilai
-        // Pastikan untuk menambahkan validasi akses
-        return view('input_nilai');
+        $mataKuliahModel = new MataKuliahModel();
+        $matkulMahasiswaModel = new MatkulMahasiswaModel();
+
+        // Dapatkan informasi mata kuliah berdasarkan kode
+        $mataKuliah = $mataKuliahModel->find($kodeMatkul);
+
+        // Dapatkan daftar mahasiswa yang mengambil mata kuliah ini
+        $mahasiswaMatkul = $matkulMahasiswaModel->where('kode_matkul', $kodeMatkul)->findAll();
+
+        return view('input_nilai', [
+            'mataKuliah' => $mataKuliah,
+            'mahasiswaMatkul' => $mahasiswaMatkul,
+            'kodeMatkul' => $kodeMatkul // Kirimkan juga kode mata kuliah ke view
+        ]);
     }
 
-    public function simpan()
+    public function simpanNilai()
     {
-        // Proses simpan nilai
-        $model = new NilaiModel();
+        $penilaianModel = new NilaiModel();
+
         $data = [
-            'mahasiswa_id' => $this->request->getVar('mahasiswa_id'),
-            'mata_kuliah_id' => $this->request->getVar('mata_kuliah_id'),
-            'nilai' => $this->request->getVar('nilai'),
-            'kategori_nilai' => $this->request->getVar('kategori_nilai')
+            'jenis' => $this->request->getPost('kategori_nilai'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'nilai' => $this->request->getPost('nilai'),
+            'nim_mahasiswa' => $this->request->getPost('mahasiswa_id'),
+            'kode_matkul' => $this->request->getPost('kode_matkul')
         ];
 
-        $model->simpanNilai($data);
-        return redirect()->to('/dashboard');
+        $penilaianModel->save($data);
+
+        // Redirect atau tampilkan pemberitahuan setelah menyimpan
+        return redirect()->to('/dashboard'); 
     }
 
-    public function lihat()
+    public function lihatNilai($kodeMatkul)
     {
-        // Tampilkan halaman lihat nilai
-        // Pastikan untuk menambahkan validasi akses
-        return view('lihat_nilai');
-    }
+        $penilaianModel = new NilaiModel();
+        $nilaiMahasiswa = $penilaianModel->where('kode_matkul', $kodeMatkul)->findAll();
 
-    public function hitungNilaiAkhir($mahasiswaId)
-    {
-        $model = new NilaiModel();
-
-        // Mengambil nilai tugas
-        $nilaiTugas = $model->getNilaiByKategori($mahasiswaId, 'tugas');
-
-        // Menghitung rata-rata nilai tugas
-        $totalNilaiTugas = 0;
-        foreach ($nilaiTugas as $nilai) {
-            $totalNilaiTugas += $nilai['nilai'];
+        // Hitung nilai akhir untuk setiap mahasiswa
+        $nilaiAkhirMahasiswa = [];
+        foreach ($nilaiMahasiswa as $nilai) {
+            $nim = $nilai['nim_mahasiswa'];
+            if (!isset($nilaiAkhirMahasiswa[$nim])) {
+                $nilaiMahasiswaPerNIM = $penilaianModel->where('kode_matkul', $kodeMatkul)
+                                                       ->where('nim_mahasiswa', $nim)
+                                                       ->findAll();
+                $nilaiAkhirMahasiswa[$nim] = $this->hitungNilaiAkhir($nilaiMahasiswaPerNIM);
+            }
         }
-        $rataRataTugas = count($nilaiTugas) > 0 ? $totalNilaiTugas / count($nilaiTugas) : 0;
 
-        // Mengambil nilai UTS dan UAS
-        $nilaiUTS = $model->getNilaiByKategori($mahasiswaId, 'uts')[0]['nilai'] ?? 0;
-        $nilaiUAS = $model->getNilaiByKategori($mahasiswaId, 'uas')[0]['nilai'] ?? 0;
-
-        // Menghitung nilai akhir
-        $nilaiAkhir = (0.2 * $rataRataTugas) + (0.4 * $nilaiUTS) + (0.4 * $nilaiUAS);
-
-        // Konversi nilai akhir ke indeks nilai
-        $indeksNilai = $this->konversiNilaiKeIndeks($nilaiAkhir);
-
-        // Update nilai akhir dan indeks nilai di database
-        // ... (kode untuk update database)
-
-        return $indeksNilai;
+        return view('lihat_nilai', [
+            'nilaiMahasiswa' => $nilaiMahasiswa,
+            'nilaiAkhirMahasiswa' => $nilaiAkhirMahasiswa,
+            'kodeMatkul' => $kodeMatkul
+        ]);
     }
+
+    
 }

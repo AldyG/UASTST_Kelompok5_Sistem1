@@ -1,28 +1,33 @@
 <?php include('header.php'); ?>
 
 <div class="container">
-    <h1>Lihat Nilai Mahasiswa</h1>
-    <p>Daftar Nilai Mahasiswa:</p>
+    <h1>Nilai Mata Kuliah: <?= $kodeMatkul ?></h1>
     <table class="table">
         <thead>
             <tr>
-                <th>ID Mahasiswa</th>
-                <th>ID Mata Kuliah</th>
+                <th>NIM Mahasiswa</th>
+                <th>Jenis</th>
                 <th>Nilai</th>
-                <th>Kategori Nilai</th>
+                <th>Deskripsi</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Di sini tempat data nilai akan di-loop dan ditampilkan -->
-            <!-- Contoh: -->
-            <!-- <tr> -->
-            <!--    <td>12345</td> -->
-            <!--    <td>67890</td> -->
-            <!--    <td>85</td> -->
-            <!--    <td>UTS</td> -->
-            <!-- </tr> -->
+            <?php foreach ($nilaiMahasiswa as $nilai): ?>
+                <tr>
+                    <td><?= $nilai['nim_mahasiswa']; ?></td>
+                    <td><?= $nilai['jenis']; ?></td>
+                    <td><?= $nilai['nilai']; ?></td>
+                    <td><?= $nilai['deskripsi']; ?></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
+    <h2>Nilai Akhir Mahasiswa</h2>
+<ul>
+    <?php foreach ($nilaiAkhirMahasiswa as $nim => $nilaiAkhir): ?>
+        <li><?= "NIM $nim: $nilaiAkhir" ?></li>
+    <?php endforeach; ?>
+</ul>
 </div>
 
 <?php include('footer.php'); ?>
