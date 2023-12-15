@@ -25,8 +25,8 @@ class AuthController extends Controller
             return redirect()->to('/dashboard');
         } else {
             // Handle login gagal
-            // return redirect()->back()->with('error', 'NIDN atau Password salah');
-            return redirect()->to('/dashboarddwd');
+            session()->setFlashdata('error', 'NIDN atau Password salah');
+            return redirect()->to('/');
         }
     }
 
