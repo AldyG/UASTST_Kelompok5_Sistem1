@@ -50,11 +50,27 @@
     button[type="submit"]:hover {
         background-color: #4cae4c;
     }
+
+    .error-message {
+        color: #ff0000; /* Merah */
+        background-color: #ffecec; /* Latar belakang merah muda */
+        border: 1px solid #ff0000; /* Border merah */
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+
 </style>
 
 
 <div class="container">
     <h1>Login Dosen</h1>
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="error-message">
+            <?= session()->getFlashdata('error'); ?>
+        </div>
+    <?php endif; ?>
     <form action="<?= site_url('/login') ?>" method="post">
     <div>
         <label for="nidn">NIDN:</label>
