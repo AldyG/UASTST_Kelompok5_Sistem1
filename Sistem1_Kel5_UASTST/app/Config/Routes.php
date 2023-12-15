@@ -15,3 +15,4 @@ $routes->post('/nilai/simpan/(:segment)', 'NilaiController::simpan/$1'); // Meny
 $routes->get('nilai/lihat/(:any)', 'NilaiController::lihatNilai/$1');// Melihat nilai
 $routes->post('nilai/simpanNilai', 'NilaiController::simpanNilai');
 $routes->post('nilai/finalisasiNilai/(:any)', 'NilaiController::finalisasiNilai/$1');
+$routes->get('/api/penilaian-dosen', 'PenilaianDosenController::index');

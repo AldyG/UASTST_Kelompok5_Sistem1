@@ -11,4 +11,9 @@ class PenilaianDosenModel extends Model
 
     protected $returnType = 'array';
     protected $allowedFields = ['nim', 'kode', 'nilai_akhir'];
+
+    public function getNilai()
+    {
+        return $this->findAll();
+    }
 }
