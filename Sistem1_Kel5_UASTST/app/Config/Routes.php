@@ -16,3 +16,4 @@ $routes->get('nilai/lihat/(:any)', 'NilaiController::lihatNilai/$1');// Melihat 
 $routes->post('nilai/simpanNilai', 'NilaiController::simpanNilai');
 $routes->post('nilai/finalisasiNilai/(:any)', 'NilaiController::finalisasiNilai/$1');
 $routes->get('/api/penilaian-dosen', 'PenilaianDosenController::index');
+$routes->get('/mahasiswa', 'MahasiswaController::index');
