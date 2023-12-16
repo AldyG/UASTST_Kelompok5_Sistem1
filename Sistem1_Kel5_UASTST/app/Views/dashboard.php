@@ -52,12 +52,29 @@
     button:hover {
         background-color: #c82333;
     }
+
+    .btn-mahasiswa {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        background-color: #28a745; /* Warna hijau */
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .btn-mahasiswa:hover {
+        background-color: #218838;
+    }
 </style>
 
 
 <div class="container">
     <h1>Dashboard Dosen</h1>
     <p>Selamat datang, <?= $dosen['nama'] ?></p>
+    <a href="<?= site_url('mahasiswa') ?>" class="btn btn-mahasiswa">Lihat IP dan IPK Mahasiswa</a>
+
 
     <!-- Di dalam file view dashboard -->
     <?php foreach ($daftarMataKuliah as $mk): ?>

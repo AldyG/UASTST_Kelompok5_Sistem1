@@ -1,0 +1,21 @@
+# Ambil image PHP dengan Apache
+FROM php:7.4-apache
+
+# Copy file konfigurasi Apache
+COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
+
+# Install extensi PHP yang dibutuhkan
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Enable mod rewrite untuk Apache
+RUN a2enmod rewrite
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy aplikasi ke dalam image
+COPY . /var/www/html
+
+# Beri permission yang tepat
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html/storage
