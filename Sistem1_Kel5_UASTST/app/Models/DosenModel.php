@@ -17,7 +17,7 @@ class DosenModel extends Model
     {
         $dosen = $this->where('nidn', $nidn)->first();
         
-        if ($dosen && $dosen['password'] === $password) {
+        if ($dosen && password_verify($password, $dosen['password'])) {
             return $dosen;
         }
 
