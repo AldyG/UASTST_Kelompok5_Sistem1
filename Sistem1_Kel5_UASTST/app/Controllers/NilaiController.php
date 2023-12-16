@@ -48,6 +48,11 @@ class NilaiController extends Controller
 
     public function input($kodeMatkul)
     {
+        // Pastikan dosen sudah login
+        if(!session()->get('logged_in_dosen')){
+            return redirect()->to('/');
+        }
+
         $mataKuliahModel = new MataKuliahModel();
         $matkulMahasiswaModel = new MatkulMahasiswaModel();
 
@@ -66,6 +71,11 @@ class NilaiController extends Controller
 
     public function simpanNilai()
     {
+        // Pastikan dosen sudah login
+        if(!session()->get('logged_in_dosen')){
+            return redirect()->to('/');
+        }
+
         $penilaianModel = new NilaiModel();
         $jenis = $this->request->getPost('kategori_nilai');
         $nim = $this->request->getPost('mahasiswa_id');
@@ -120,6 +130,11 @@ class NilaiController extends Controller
 
     public function lihatNilai($kodeMatkul)
     {
+        // Pastikan dosen sudah login
+        if(!session()->get('logged_in_dosen')){
+            return redirect()->to('/');
+        }
+
         $penilaianModel = new NilaiModel();
         $nilaiMahasiswa = $penilaianModel->where('kode_matkul', $kodeMatkul)->findAll();
 
@@ -144,6 +159,11 @@ class NilaiController extends Controller
 
     public function finalisasiNilai($kodeMatkul)
   {
+    // Pastikan dosen sudah login
+    if(!session()->get('logged_in_dosen')){
+        return redirect()->to('/');
+    }
+
     $penilaianModel = new NilaiModel();
     $penilaianDosenModel = new PenilaianDosenModel();
 
