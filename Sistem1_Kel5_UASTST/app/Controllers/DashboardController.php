@@ -9,8 +9,8 @@ class DashboardController extends BaseController
 {
     public function index()
     {
-        $session = session();
-        $nidn = $session->get('logged_in_dosen')['nidn']; // diasumsikan NIDN tersimpan di session saat login
+        // $session = session();
+        $nidn = session('logged_in_dosen')['nidn']; // diasumsikan NIDN tersimpan di session saat login
 
         $dosenModel = new DosenModel();
         // $matkulDosenModel = new MatkulDosenModel();
