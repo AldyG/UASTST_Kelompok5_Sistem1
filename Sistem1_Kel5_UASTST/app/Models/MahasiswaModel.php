@@ -13,7 +13,7 @@ class MahasiswaModel extends Model
 
     public function getMahasiswa()
     {
-        $response = $this->client->request('GET', 'http://alamat_api_anda/api/mahasiswa');
+        $response = $this->client->request('GET', 'http://localhost:8081/api/mahasiswa');
         if ($response->getStatusCode() == 200) {
             return json_decode($response->getBody(), true);
         }
