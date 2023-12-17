@@ -72,8 +72,8 @@
         <?php foreach ($mahasiswa as $mhs): ?>
         <tr>
             <td><?= esc($mhs['nim']); ?></td>
-            <td><?= esc($mhs['IP']); ?></td>
-            <td><?= esc($mhs['IPK']); ?></td>
+            <td><?= is_null($mhs['ip']) ? 'Belum Ada' : esc($mhs['ip']); ?></td>
+            <td><?= esc($mhs['ipk']); ?></td>
         </tr>
         <?php endforeach; ?>
     </table>
