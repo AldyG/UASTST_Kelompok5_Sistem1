@@ -1,6 +1,13 @@
 # UASTST_Kelompok5_Sistem1
-Repository untuk sistem pertama yang akan dikembangkan sebagai pemenuhan Tugas Besar (UAS) II3160 Teknologi Sistem Terintegrasi.
+Repository untuk sistem pertama dari Kelompok 5 yang akan dikembangkan sebagai pemenuhan Tugas Besar (UAS) II3160 Teknologi Sistem Terintegrasi.<br>
+Sistem pertama yang dikembangkan berupa Sistem Penilaian yang berfungsi melakukan penilaian tugas, UTS, maupun UAS kepada mata kuliah yang diambil oleh mahasiswa.
+
+## Anggota Kelompok 5
+1. 18221045 - Ivan Aldy Ganesen
+2. 18221061 - Mario Nicholas Reyhan
+3. 18221169 - Ferdinand Refrandt
 
 ### Running Instructions
-1. Hapus `example` di belakang nama file `.env.example`
-2. Ketik `php spark serve --port 5000` di terminal untuk menjalankannya dari port 5000.
+1. Lakukan cloning jika diperlukan (menggunakan git clone atau Github Desktop).
+2. Hapus `.example` di belakang nama file `.env.example`
+3. Ketik `php spark serve` di terminal untuk menjalankannya dari port 8000.
